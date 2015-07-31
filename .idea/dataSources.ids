@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - bookstore@localhost" uuid="70c1d3e0-ac00-4328-b1e1-7479555f6032">
+    <database-info product="MySQL" version="5.6.25-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="bookstore"/>
+    <table name="author" schema="" catalog="bookstore" type="TABLE">
+      <column name="ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="BOOK_ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="FIRST_NAME" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <column name="LAST_NAME" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+      <foreign-key name="FK_AUTHOR_1" columns="BOOK_ID" ref-table="book" ref-schema="" ref-catalog="bookstore" ref-columns="ID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_AUTHOR_1" unique="false" columns="BOOK_ID"/>
+    </table>
+    <table name="book" schema="" catalog="bookstore" type="TABLE">
+      <column name="ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="CATEGORY_ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="BOOK_TITLE" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PUBLISHER" sqlType="VARCHAR" precision="60" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+      <foreign-key name="FK_BOOK_1" columns="CATEGORY_ID" ref-table="category" ref-schema="" ref-catalog="bookstore" ref-columns="ID" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_AUTHOR_1" table="author" schema="" catalog="bookstore" columns="BOOK_ID"/>
+      <index name="FK_BOOK_1" unique="false" columns="CATEGORY_ID"/>
+    </table>
+    <table name="category" schema="" catalog="bookstore" type="TABLE">
+      <column name="ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="CATEGORY_DESCRIPTION" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+      <exported-key name="FK_BOOK_1" table="book" schema="" catalog="bookstore" columns="CATEGORY_ID"/>
+    </table>
+  </data-source>
+</component>
