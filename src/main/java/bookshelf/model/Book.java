@@ -1,6 +1,7 @@
 package bookshelf.model;
 
 import bookshelf.model.Author;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -16,11 +17,12 @@ public class Book {
         this.Id = Id;
     }
 
-    public Book(int Id, int categoryId, String publisher, String bookTitle) {
+    public Book(int Id, int categoryId, String publisher, @JsonProperty("bookTitle")String bookTitle) {
         this.Id = Id;
         this.categoryId = categoryId;
         this.publisher = publisher;
         this.bookTitle = bookTitle;
+
     }
 
     public Book() {

@@ -4,7 +4,11 @@ import bookshelf.model.Author;
 import bookshelf.model.Book;
 import bookshelf.dao.DaoImp;
 import bookshelf.model.Category;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,11 +25,15 @@ public class DataController {
    public List<Book> list() {
        return bookDao.findBooks();
     }
+    @RequestMapping("/books")
+    public List<Book> lists(){
+        return bookDao.findAllBooks();
+    }
 
     @RequestMapping("/category")
     public List<Category> categoryList(){
         return bookDao.findAllCategories();
-    }
+}
 
     @RequestMapping("/authors")
     public List<Author> authorList(){
@@ -35,4 +43,11 @@ public class DataController {
     public List<Book> searchBooksByKeyword(String keyWord){
         return bookDao.searchBooksByKeyword(keyWord);
     }
+    @RequestMapping(value = "/addBook", method = RequestMethod.POST)
+    public Book setNewBook(@RequestBody Book book) {
+        bookDao.addBook(book);
+        return book;
+    }
+
+
 }

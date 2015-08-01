@@ -37,9 +37,11 @@ public class DaoImp {
 
     public List<Book> findAllBooks() {
         List<Book> result = new ArrayList<Book>();
-        List<Author> authorList = new ArrayList<Author>();
 
-        String sql = "select * from book inner join author on book.id = author.book_id";
+
+//        String sql = "select * from book left join author on book.id = author.book_id";
+
+        String sql = " Select * from author a join  book b on b.ID = a.BOOK_ID";
 
         Connection connection = null;
         try {
@@ -47,9 +49,10 @@ public class DaoImp {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
+                List<Author> authorList = new ArrayList<Author>();
                 Book book = new Book();
                 Author author = new Author();
-                book.setId(resultSet.getInt("id"));
+                book.setId(resultSet.getInt("ID"));
                 book.setBookTitle(resultSet.getString("book_title"));
                 book.setCategoryId(resultSet.getInt("category_id"));
                 author.setBookId(resultSet.getInt("book_Id"));
@@ -94,9 +97,8 @@ public class DaoImp {
 
     public List<Book> searchBooksByKeyword(String keyWord) {
         List<Book> result = new ArrayList<Book>();
-        List<Author> authorList = new ArrayList<Author>();
 
-        String sql = "select * from book inner join author on book.id = author.book_id"
+        String sql = "select * from book left join author on book.id = author.book_id"
                 + " where book_title like '%"
                 + keyWord.trim()
                 + "%'"
@@ -114,6 +116,7 @@ public class DaoImp {
             while (resultSet.next()) {
                 Book book = new Book();
                 Author author = new Author();
+                List<Author> authorList = new ArrayList<Author>();
                 book.setId(resultSet.getInt("id"));
                 book.setBookTitle(resultSet.getString("book_title"));
                 author.setFirstName(resultSet.getString("first_name"));
@@ -179,15 +182,15 @@ public class DaoImp {
         return result;
     }
 
-    public void insert(Book book) {
+    public void addBook(Book book) {
         Connection connection = null;
         try {
             connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                    "insert into Book (book_title) values (?)",
+                    "INSERT into Book (book_title) values (?)",
                     Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, book.getBookTitle());
-            statement.execute();
+            statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 book.setId(generatedKeys.getInt(1));
@@ -199,22 +202,20 @@ public class DaoImp {
         }
     }
 
-    public void update(Book book) {
-    }
-
-    public void delete(Integer bookId) {
-        Connection connection = null;
-
-        try {
-            connection = getConnection();
-            PreparedStatement statement = connection
-                    .prepareStatement("delete from book where id=?");
-            statement.setInt(1, bookId);
-            statement.execute();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            closeConnection(connection);
-        }
-    }
+//probably do not need a delete book
+//    public void delete(Integer bookId) {
+//        Connection connection = null;
+//
+//        try {
+//            connection = getConnection();
+//            PreparedStatement statement = connection
+//                    .prepareStatement("delete from book where id=?");
+//            statement.setInt(1, bookId);
+//            statement.execute();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        } finally {
+//            closeConnection(connection);
+//        }
+//    }
 }
