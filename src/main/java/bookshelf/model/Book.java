@@ -24,6 +24,9 @@ public class Book {
         this.bookTitle = bookTitle;
 
     }
+    public Book(@JsonProperty("bookTitle")String bookTitle){
+        this.bookTitle = bookTitle;
+    }
 
     public Book() {
     }
