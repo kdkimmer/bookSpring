@@ -22,7 +22,7 @@ public class DaoImp {
         }
     }
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore",
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore2",
                 "bookstoreAdmin", "100000");
     }
 
@@ -55,7 +55,7 @@ public class DaoImp {
                 book.setId(resultSet.getInt("ID"));
                 book.setBookTitle(resultSet.getString("book_title"));
                 book.setPublisher(resultSet.getString("publisher"));
-                book.setCategoryId(resultSet.getInt("category_id"));
+                book.setCategoryDescription(resultSet.getString("category_description"));
                 author.setBookId(resultSet.getInt("book_Id"));
                 author.setFirstName(resultSet.getString("first_name"));
                 author.setLastName(resultSet.getString("last_name"));
@@ -85,7 +85,7 @@ public class DaoImp {
                 book.setId(resultSet.getInt("id"));
                 book.setBookTitle(resultSet.getString("book_title"));
                 book.setPublisher(resultSet.getString("publisher"));
-                book.setCategoryId(resultSet.getInt("category_id"));
+                book.setCategoryDescription(resultSet.getString("category_description"));
                 result.add(book);
             }
         } catch (SQLException ex) {
@@ -170,7 +170,6 @@ public class DaoImp {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Category category = new Category();
-                category.setId(resultSet.getInt("id"));
                 category.setDescription(resultSet
                         .getString("category_description"));
                 result.add(category);
