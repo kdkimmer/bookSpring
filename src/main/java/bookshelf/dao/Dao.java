@@ -1,5 +1,6 @@
 package bookshelf.dao;
 
+import bookshelf.model.Author;
 import bookshelf.model.Book;
 import bookshelf.model.Category;
 
@@ -11,6 +12,10 @@ import java.util.List;
 public interface Dao {
 
     public List<Book> findAllBooks();
+
+    public List<Book> findBooks();
+
+    public List<Author> findALLAuthors();
 
     public List<Category> findAllCategories();
 

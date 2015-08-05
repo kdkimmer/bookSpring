@@ -54,6 +54,7 @@ public class DaoImp {
                 Author author = new Author();
                 book.setId(resultSet.getInt("ID"));
                 book.setBookTitle(resultSet.getString("book_title"));
+                book.setPublisher(resultSet.getString("publisher"));
                 book.setCategoryId(resultSet.getInt("category_id"));
                 author.setBookId(resultSet.getInt("book_Id"));
                 author.setFirstName(resultSet.getString("first_name"));

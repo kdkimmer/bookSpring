@@ -1,8 +1,10 @@
 package bookshelf.service;
 
+import bookshelf.dao.Dao;
 import bookshelf.model.Author;
 import bookshelf.model.Book;
 import bookshelf.dao.DaoImp;
+import bookshelf.dao.Dao;
 import bookshelf.model.Category;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ public class DataController {
    public List<Book> list() {
        return bookDao.findBooks();
     }
+
     @RequestMapping("/books")
     public List<Book> lists(){
         return bookDao.findAllBooks();
