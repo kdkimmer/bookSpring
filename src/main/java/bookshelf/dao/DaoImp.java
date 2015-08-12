@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by kim on 7/29/2015.
  */
-public class DaoImp {
+public class DaoImp implements Dao {
     static{
         //public static void main(java.lang.String[] args) {
         // open    connection
@@ -21,6 +21,9 @@ public class DaoImp {
             System.out.println("Unable to load Driver Class");
         }
     }
+
+    private Book book;
+
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore2",
                 "bookstoreAdmin", "100000");
@@ -35,9 +38,8 @@ public class DaoImp {
         }
     }
 
-    public List<Book> findAllBooks() {
+    public List<Book> findAllBookswithAuthors() {
         List<Book> result = new ArrayList<Book>();
-
 
 //        String sql = "select * from book left join author on book.id = author.book_id";
 
@@ -96,6 +98,68 @@ public class DaoImp {
         return result;
     }
 
+    public List<Book> findBookbyID(String ID) {
+        List<Book> result = new ArrayList<Book>();
+
+        String sql = "select * from book WHERE book.ID = " + ID;
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Book book = new Book();
+                book.setId(resultSet.getInt("id"));
+                book.setBookTitle(resultSet.getString("book_title"));
+                book.setPublisher(resultSet.getString("publisher"));
+                book.setCategoryDescription(resultSet.getString("category_description"));
+                result.add(book);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            closeConnection(connection);
+        }
+        return result;
+    }
+
+    public List<Book> findBooksbyCategory(String category) {
+        List<Book> result = new ArrayList<Book>();
+
+        String sql = "SELECT Category.CATEGORY_DESCRIPTION, Book.book_title\n" +
+                "FROM Category\n" +
+                "INNER JOIN book\n" +
+                "ON Category.CATEGORY_DESCRIPTION=book.CATEGORY_DESCRIPTION\n" +
+                "Where (Category.CATEGORY_DESCRIPTION =\'"+category+"\')";
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                List<Category> categoryList = new ArrayList<Category>();
+                Book book = new Book();
+                Category categories = new Category();
+                //book.setId(resultSet.getInt("id"));
+                book.setBookTitle(resultSet.getString("book_title"));
+                //book.setPublisher(resultSet.getString("publisher"));
+                book.setCategoryDescription(resultSet.getString("category_description"));
+                categories.getDescription();
+                categories.setDescription(resultSet.getString("category_description"));
+                categoryList.add(categories);
+                book.setCategories(categoryList);
+                result.add(book);
+
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            closeConnection(connection);
+        }
+        return result;
+    }
     public List<Book> searchBooksByKeyword(String keyWord) {
         List<Book> result = new ArrayList<Book>();
 
@@ -135,6 +199,7 @@ public class DaoImp {
 
         return result;
     }
+
     public List<Author> findALLAuthors(){
         List<Author> result = new ArrayList<Author>();
         String sql = "select * from author";
@@ -170,8 +235,7 @@ public class DaoImp {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Category category = new Category();
-                category.setDescription(resultSet
-                        .getString("category_description"));
+                category.setDescription(resultSet.getString("category_description"));
                 result.add(category);
             }
         } catch (SQLException ex) {
@@ -187,11 +251,15 @@ public class DaoImp {
         try {
             connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT into Book (book_title) values (?)",
-                    Statement.RETURN_GENERATED_KEYS);
+                    "INSERT into BookStore2.book (BOOK_TITLE, CATEGORY_DESCRIPTION, PUBLISHER, PRICE) values (?,?,?,?)");
+
             statement.setString(1, book.getBookTitle());
+            statement.setString(2, book.getCategoryDescription());
+            statement.setString(3, book.getPublisher());
+            statement.setString(4,book.getPrice());
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
+
             if (generatedKeys.next()) {
                 book.setId(generatedKeys.getInt(1));
             }
@@ -200,6 +268,7 @@ public class DaoImp {
         } finally {
             closeConnection(connection);
         }
+
     }
 
 //probably do not need a delete book

@@ -12,16 +12,19 @@ public class Book {
     private String publisher;
     private String bookTitle;
     private List<Author> authors;
+    private List<Category> categories;
+    private String price;
 
     public Book(int Id) {
         this.Id = Id;
     }
 
-    public Book(int Id, String categoryDescription, String publisher, @JsonProperty("bookTitle")String bookTitle) {
+    public Book(int Id,String categoryDescription, String publisher,String bookTitle, String price) {
         this.Id = Id;
         this.categoryDescription = categoryDescription;
         this.publisher = publisher;
         this.bookTitle = bookTitle;
+        this.price = price;
 
     }
     public Book(@JsonProperty("bookTitle")String bookTitle){
@@ -63,6 +66,14 @@ public class Book {
         return bookTitle;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
     public List<Author> getAuthors() {
         return authors;
     }
@@ -70,4 +81,13 @@ public class Book {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
 }

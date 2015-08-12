@@ -11,9 +11,13 @@ import java.util.List;
  */
 public interface Dao {
 
-    public List<Book> findAllBooks();
+    public List<Book> findAllBookswithAuthors();
 
     public List<Book> findBooks();
+
+    public List<Book> findBookbyID(String ID);
+
+    public List<Book> findBooksbyCategory(String category);
 
     public List<Author> findALLAuthors();
 
@@ -21,6 +25,6 @@ public interface Dao {
 
     public List<Book> searchBooksByKeyword(String keyWord);
     
-    public List<Book> addBook();
+    public void addBook(Book book);
 }
 
